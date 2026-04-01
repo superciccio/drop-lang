@@ -1,6 +1,9 @@
-# Binary
-drop
+# Binary (compiled output in project root)
+/drop
 *.exe
+
+# Drop data stores (created at runtime)
+todos.json
 
 # Go
 bin/

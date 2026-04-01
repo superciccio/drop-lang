@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drop — A zero-ceremony prototyping language</title>
+  <meta name="description" content="Write a .drop file. Run drop file.drop. Get a running prototype. No setup. No dependencies. Just your idea.">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background: #0a0a0a;
+      color: #ededed;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    a {
+      color: #6cb4ee;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Hero */
+
+    .hero {
+      padding: 6rem 0 4rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero .tagline {
+      font-size: 1.35rem;
+      color: #999;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero .subtitle {
+      font-size: 1.05rem;
+      color: #777;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero .subtitle code {
+      color: #ededed;
+      background: #141414;
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+      font-size: 0.95em;
+    }
+
+    .install-box {
+      display: inline-block;
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+      color: #ededed;
+      user-select: all;
+    }
+
+    .install-box .prompt {
+      color: #555;
+      user-select: none;
+    }
+
+    /* Sections */
+
+    section {
+      padding: 3.5rem 0;
+    }
+
+    section + section {
+      border-top: 1px solid #1a1a1a;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    p {
+      color: #bbb;
+      margin-bottom: 1rem;
+    }
+
+    /* Code blocks */
+
+    pre {
+      background: #141414;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      color: #ddd;
+    }
+
+    pre .kw {
+      color: #c792ea;
+    }
+
+    pre .str {
+      color: #c3e88d;
+    }
+
+    pre .cm {
+      color: #555;
+    }
+
+    pre .num {
+      color: #f78c6c;
+    }
+
+    .punchline {
+      font-size: 1.15rem;
+      color: #ededed;
+      font-weight: 500;
+      margin-top: 0.5rem;
+    }
+
+    /* Features grid */
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .feature {
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .feature h3 {
+      color: #ededed;
+      margin-bottom: 0.4rem;
+    }
+
+    .feature p {
+      font-size: 0.9rem;
+      color: #999;
+      margin-bottom: 0;
+    }
+
+    /* Syntax section */
+
+    .syntax-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .syntax-item h3 {
+      color: #999;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .syntax-item pre {
+      margin-bottom: 0;
+    }
+
+    /* Install section */
+
+    .install-section {
+      text-align: center;
+    }
+
+    .install-section pre {
+      display: inline-block;
+      text-align: left;
+      margin-bottom: 1.25rem;
+    }
+
+    .install-section p {
+      color: #777;
+      font-size: 0.95rem;
+    }
+
+    .install-section .or {
+      color: #555;
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+
+    footer {
+      border-top: 1px solid #1a1a1a;
+      padding: 2rem 0;
+      text-align: center;
+      color: #555;
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: #777;
+    }
+
+    footer a:hover {
+      color: #ededed;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 4rem 0 3rem;
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+      }
+
+      .hero .tagline {
+        font-size: 1.15rem;
+      }
+
+      .install-box {
+        font-size: 0.75rem;
+        padding: 0.6rem 1rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .syntax-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .install-box {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Hero -->
+    <header class="hero">
+      <h1>Drop</h1>
+      <p class="tagline">A zero-ceremony prototyping language</p>
+      <p class="subtitle">Write a <code>.drop</code> file. Run <code>drop file.drop</code>. Get a running prototype.</p>
+      <div class="install-box">
+        <span class="prompt">$ </span>go install github.com/superciccio/drop-lang/cmd/drop@latest
+      </div>
+    </header>
+
+    <!-- Hello World -->
+    <section>
+      <h2>Hello World</h2>
+      <pre><span class="kw">name</span> = <span class="str">"World"</span>
+<span class="kw">print</span> <span class="str">"Hello, {name}!"</span></pre>
+      <p>That's it. No imports. No main function. No semicolons. Just your idea.</p>
+    </section>
+
+    <!-- Full Todo App -->
+    <section>
+      <h2>A Complete Todo App</h2>
+      <pre><span class="kw">serve</span> <span class="num">8080</span>
+<span class="kw">store</span> <span class="str">"todos"</span>
+
+<span class="kw">get</span> <span class="str">"/"</span>
+  <span class="kw">page</span> <span class="str">"My Todos"</span>
+    <span class="kw">each</span> todo <span class="kw">in</span> <span class="kw">load</span> <span class="str">"todos"</span>
+      <span class="kw">row</span>
+        <span class="kw">text</span> todo.name
+        <span class="kw">button</span> <span class="str">"Delete"</span> -> <span class="kw">delete</span> <span class="str">"/todos/{todo.id}"</span>
+    <span class="kw">form</span> <span class="str">"New Todo"</span>
+      <span class="kw">input</span> <span class="str">"name"</span>
+      <span class="kw">submit</span> <span class="str">"Add"</span> -> <span class="kw">post</span> <span class="str">"/todos"</span>
+
+<span class="kw">post</span> <span class="str">"/todos"</span>
+  <span class="kw">save</span> <span class="str">"todos"</span> body
+  <span class="kw">respond</span> body <span class="num">201</span>
+
+<span class="kw">delete</span> <span class="str">"/todos/:id"</span>
+  <span class="kw">remove</span> <span class="str">"todos"</span> id
+  <span class="kw">respond</span> <span class="str">"Deleted"</span>
+
+<span class="kw">get</span> <span class="str">"/api/todos"</span>
+  <span class="kw">respond</span> <span class="kw">load</span> <span class="str">"todos"</span></pre>
+      <p class="punchline">That's a full CRUD app with a UI. ~20 lines. No setup. No dependencies.</p>
+    </section>
+
+    <!-- Features -->
+    <section>
+      <h2>Features</h2>
+      <div class="features-grid">
+        <div class="feature">
+          <h3>Web Built-in</h3>
+          <p>serve, get, post, respond, body, route params. Your prototype is a web app from line one.</p>
+        </div>
+        <div class="feature">
+          <h3>Data Persistence</h3>
+          <p>store, save, load, remove. JSON files on disk. No database to configure.</p>
+        </div>
+        <div class="feature">
+          <h3>Auto UI</h3>
+          <p>Your browser gets styled HTML pages. Lists become tables, maps become cards. No templates.</p>
+        </div>
+        <div class="feature">
+          <h3>Page Blocks</h3>
+          <p>Custom UI with page, text, row, each, button, form, input, submit. Layout without a framework.</p>
+        </div>
+        <div class="feature">
+          <h3>Fetch</h3>
+          <p><code style="color:#ddd;background:#1a1a1a;padding:0.1em 0.3em;border-radius:3px;font-size:0.85em;">fetch "url"</code> for external HTTP requests. Talk to any API in one line.</p>
+        </div>
+        <div class="feature">
+          <h3>Hot Reload</h3>
+          <p>Change your file, server restarts automatically. No manual restarts, no watchers to configure.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Syntax Overview -->
+    <section>
+      <h2>Syntax Overview</h2>
+      <div class="syntax-grid">
+        <div class="syntax-item">
+          <h3>Variables &amp; Interpolation</h3>
+          <pre>name = <span class="str">"Andrea"</span>
+age = <span class="num">30</span>
+msg = <span class="str">"Hello {name}, age {age}"</span></pre>
+        </div>
+        <div class="syntax-item">
+          <h3>Functions</h3>
+          <pre><span class="kw">do</span> greet(name)
+  <span class="kw">return</span> <span class="str">"Hello, {name}!"</span></pre>
+        </div>
+        <div class="syntax-item">
+          <h3>Control Flow</h3>
+          <pre><span class="kw">if</span> age > <span class="num">18</span>
+  <span class="kw">respond</span> <span class="str">"Welcome"</span>
+<span class="kw">else</span>
+  <span class="kw">respond</span> <span class="str">"Too young"</span>
+
+<span class="kw">for</span> user <span class="kw">in</span> users
+  <span class="kw">print</span> user.name</pre>
+        </div>
+        <div class="syntax-item">
+          <h3>Lists, Maps &amp; Comments</h3>
+          <pre>tags = [<span class="str">"fast"</span>, <span class="str">"simple"</span>]
+user = {name: <span class="str">"Andrea"</span>}
+
+<span class="cm">-- this is a comment</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Install -->
+    <section class="install-section">
+      <h2>Install</h2>
+      <pre><span class="prompt" style="color:#555;user-select:none;">$ </span>go install github.com/superciccio/drop-lang/cmd/drop@latest</pre>
+      <p class="or">or download from <a href="https://github.com/superciccio/drop-lang/releases">GitHub Releases</a></p>
+      <p>Editor support: <code style="color:#ddd;background:#141414;padding:0.15em 0.4em;border-radius:4px;font-family:'SF Mono','Fira Code',Menlo,Consolas,monospace;font-size:0.9em;">drop --editor vscode|vim|sublime|zed</code></p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>MIT License &middot; <a href="https://github.com/superciccio/drop-lang">GitHub</a></p>
+      <p style="margin-top:0.5rem;color:#333;">If you're typing anything that isn't your idea, Drop has failed.</p>
+    </footer>
+
+  </div>
+</body>
+</html>

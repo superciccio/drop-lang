@@ -1,0 +1,17 @@
+-- Todo API in Drop
+serve 8080
+store "todos"
+
+get "/todos"
+  respond load "todos"
+
+post "/todos"
+  save "todos" body
+  respond body 201
+
+delete "/todos/:id"
+  remove "todos" id
+  respond "Deleted" 200
+
+get "/"
+  respond "Drop Todo API - try POST /todos and GET /todos"

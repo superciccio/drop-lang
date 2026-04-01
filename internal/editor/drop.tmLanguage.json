@@ -1,0 +1,70 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Drop",
+  "scopeName": "source.drop",
+  "fileTypes": ["drop"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#keywords" },
+    { "include": "#operators" },
+    { "include": "#functions" },
+    { "include": "#constants" },
+    { "include": "#web" },
+    { "include": "#data" },
+    { "include": "#ui" }
+  ],
+  "repository": {
+    "comments": {
+      "match": "--.*$",
+      "name": "comment.line.double-dash.drop"
+    },
+    "strings": {
+      "begin": "\"",
+      "end": "\"",
+      "name": "string.quoted.double.drop",
+      "patterns": [
+        {
+          "match": "\\{[^}]+\\}",
+          "name": "variable.other.interpolation.drop"
+        }
+      ]
+    },
+    "numbers": {
+      "match": "\\b\\d+(\\.\\d+)?\\b",
+      "name": "constant.numeric.drop"
+    },
+    "keywords": {
+      "match": "\\b(if|else|for|in|do|return|print|and|or|not)\\b",
+      "name": "keyword.control.drop"
+    },
+    "operators": {
+      "match": "(->|\\|)|([=!<>]=?|\\+|\\-|\\*|/|%)",
+      "name": "keyword.operator.drop"
+    },
+    "functions": {
+      "match": "\\b(do)\\s+([a-zA-Z_]\\w*)",
+      "captures": {
+        "1": { "name": "keyword.control.drop" },
+        "2": { "name": "entity.name.function.drop" }
+      }
+    },
+    "constants": {
+      "match": "\\b(true|false)\\b",
+      "name": "constant.language.drop"
+    },
+    "web": {
+      "match": "\\b(serve|get|post|put|delete|respond|body|fetch)\\b",
+      "name": "support.function.web.drop"
+    },
+    "data": {
+      "match": "\\b(store|save|load|remove)\\b",
+      "name": "support.function.data.drop"
+    },
+    "ui": {
+      "match": "\\b(page|text|row|each|button|form|input|submit|link|image)\\b",
+      "name": "support.function.ui.drop"
+    }
+  }
+}

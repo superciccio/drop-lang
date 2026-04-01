@@ -1,0 +1,38 @@
+-- Hello World in Drop
+name = "World"
+print "Hello, {name}!"
+
+-- Variables and math
+x = 10
+y = 3
+print x + y
+print x * y
+
+-- Lists
+colors = ["red", "green", "blue"]
+for color in colors
+  print color
+
+-- Maps
+user = {name: "Andrea", role: "builder"}
+print "User: {user.name} ({user.role})"
+
+-- Functions
+do greet(who)
+  return "Hey, {who}!"
+
+msg = greet("Drop")
+print msg
+
+-- Conditionals
+age = 25
+if age >= 18
+  print "Welcome!"
+else
+  print "Too young"
+
+-- Nested logic
+items = [1, 2, 3, 4, 5]
+for item in items
+  if item > 3
+    print item

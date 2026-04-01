@@ -1,0 +1,24 @@
+-- Full Todo App with UI
+serve 8080
+store "todos"
+
+get "/"
+  page "My Todos"
+    each todo in load "todos"
+      row
+        text todo.name
+        button "Delete" -> delete "/todos/{todo.id}"
+    form "New Todo"
+      input "name"
+      submit "Add" -> post "/todos"
+
+post "/todos"
+  save "todos" body
+  respond body 201
+
+delete "/todos/:id"
+  remove "todos" id
+  respond "Deleted"
+
+get "/api/todos"
+  respond load "todos"
